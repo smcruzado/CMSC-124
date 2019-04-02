@@ -52,29 +52,29 @@ tokens = [
     'LT',
 ] + list(reserved.values())
 # Regular expression rules for simple tokens 
-t_ASSIGN = 'kay'
+t_ASSIGN = r"kay"
 t_OPENPAR = r'\('
 t_CLOSEPAR = r'\)'
-t_OPENCURLY = '{'
-t_CLOSECURLY = '}'
+t_OPENCURLY = r'{'
+t_CLOSECURLY = r'}'
 t_OPENBRACE = r'\['
 t_CLOSEBRACE = r'\]'
-t_COLON = ':'
-t_COMMA = ','
+t_COLON = r':'
+t_COMMA = r','
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_MUL = r'\*'
 t_DIV = r'/'
 t_MOD = r'%'
-t_EQ = 'angay sa'
-t_NEQ = 'di angay sa'
-t_GT = 'dako sa'
-t_LT = 'gamay sa'
-t_LEQ = 'angay gamay sa'
-t_GEQ = 'angay dako sa'
-t_AND = r'kag'
-t_OR = r'ukon'
-t_NOT = r'di'
+t_EQ = r'\angay sa'
+t_NEQ = r'\di angay sa'
+t_GT = r'\dako sa'
+t_LT = r'\gamay sa'
+t_LEQ = r'\angay gamay sa'
+t_GEQ = r'\angay dako sa'
+t_AND = r'\kag'
+t_OR = r'\ukon'
+t_NOT = r'\di'
 
 # Defining a rule so we can track line numbers
 def t_newline(t):
@@ -96,16 +96,6 @@ def t_STRLIT(t):
     t.value = str(t.value).strip('\"')
     return t
 
-def t_INTLIT(t):
-    r''
-    t.value = str(t.value).strip('\"')
-    return t
-
-def t_FLTLIT
-
-def t_COMMENT(t):
-    r'
-
 def t_FLOAT(t):
     r'\d+\.\d+' 
     t.value = float(t.value)
@@ -116,4 +106,19 @@ def t_INT(t):
     t.value = int(t.value)
     return t
 
+# Error handling rule
+def t_error(t):
+    print("SYNTAX ERROR: Illegal character: '%s' \n\tLine number: %d" % (t.value[0], t.lineno))
+    t.lexer.skip(1)
+
 lexer = lex.lex()
+
+
+lexer.input("(kung a kay b)")
+print("TOKENS:")
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break
+    print("\t",tok)
+print("\nEVALUATION:")
